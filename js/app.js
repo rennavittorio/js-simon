@@ -16,18 +16,7 @@ let time;
 let level = 0;
 
 //start game
-playBtnElement.addEventListener('click', startGame
-    // level++;
-    // let rndNumList = generateRndIntegerNumList(level);
-    // console.log(rndNumList);
-    
-    // pcInput(rndNumList);
-    
-    // counter = 5;
-    // time = 1000;
-    // clock = setInterval(userAnswer, time, rndNumList);
-
-)
+playBtnElement.addEventListener('click', startGame);
 
 
 
@@ -37,11 +26,11 @@ playBtnElement.addEventListener('click', startGame
 function startGame(){
     level++;
     let rndNumList = generateRndIntegerNumList(level);
-    console.log(rndNumList);
+    // console.log(rndNumList);
     
     pcInput(rndNumList);
     
-    counter = 5;
+    counter = 1;
     time = 1000;
     clock = setInterval(userAnswer, time, rndNumList);
 }
@@ -85,15 +74,15 @@ function userAnswer(rndNumList) {
         let userPoints = userRightNums.length;
         
         if (userPoints === rndNumList.length){
-            console.log('user rigth', userRightNums);
+            console.log('user right', userRightNums);
             console.log('user points', userPoints);
-            console.log('continue to the next level')
-            playBtnElement.addEventListener('click', startGame)
+            console.log('you complete level:', level);
+            playBtnElement.addEventListener('click', startGame);
         } else {
             console.log('user rigth', userRightNums);
             console.log('user points', userPoints);
-            console.log('your max level reached is', level - 1)
-            playBtnElement.removeEventListener('click', startGame)
+            console.log('your max level reached is', level - 1);
+            playBtnElement.removeEventListener('click', startGame);
         }
 
     }
@@ -102,7 +91,7 @@ function userAnswer(rndNumList) {
 
 
 function userInputResult (userInput, rndNumList){
-    //ctrl
+    //trasforma input in array
     let userInputCtrlArray = [];
     for (let i = 0; i < userInput.length; i++){
         userInputCtrlArray.push(parseInt(userInput[i]));
@@ -110,13 +99,21 @@ function userInputResult (userInput, rndNumList){
     
     //points count
     let rigthInputList = []
+    let wrongInputList = []
+    let errorCounter = 0;
     for (let i = 0; i < rndNumList.length; i++){
         if (rndNumList.includes(userInputCtrlArray[i])){
             rigthInputList.push(userInputCtrlArray[i]);
+        } else {
+            wrongInputList.push(userInputCtrlArray[i]);
+            errorCounter++;
         }
         
     }
 
-   return rigthInputList;
+    console.log('num shown:', rndNumList);
+    console.log('num err:', wrongInputList);
+    console.log('count err:', errorCounter);
+    return rigthInputList;
 
 }
