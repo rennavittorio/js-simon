@@ -13,11 +13,30 @@ let playBtnElement = document.querySelector('.play-btn');
 let counter;
 let clock = undefined;
 let time;
+let level = 0;
 
 //start game
-playBtnElement.addEventListener('click', function(){
+playBtnElement.addEventListener('click', startGame
+    // level++;
+    // let rndNumList = generateRndIntegerNumList(level);
+    // console.log(rndNumList);
     
-    let rndNumList = generateRndIntegerNumList(5);
+    // pcInput(rndNumList);
+    
+    // counter = 5;
+    // time = 1000;
+    // clock = setInterval(userAnswer, time, rndNumList);
+
+)
+
+
+
+//////////////////////////////////////////////////
+//////////////// FUNCTION ////////////////////////
+//////////////////////////////////////////////////
+function startGame(){
+    level++;
+    let rndNumList = generateRndIntegerNumList(level);
     console.log(rndNumList);
     
     pcInput(rndNumList);
@@ -25,16 +44,8 @@ playBtnElement.addEventListener('click', function(){
     counter = 5;
     time = 1000;
     clock = setInterval(userAnswer, time, rndNumList);
+}
 
-    //valuto prompt
-
-})
-
-
-
-//////////////////////////////////////////////////
-//////////////// FUNCTION ////////////////////////
-//////////////////////////////////////////////////
 
 //genera lista num rnd da 0 a numItems
 function generateRndIntegerNumList (numItems){
@@ -62,6 +73,7 @@ function pcInput (list){
 
 function userAnswer(rndNumList) {
     counter--;
+    playBtnElement.removeEventListener('click', startGame)
     console.log(counter);
 
     userInput = '';
@@ -69,7 +81,20 @@ function userAnswer(rndNumList) {
         //interrompere
         clearInterval(clock);
         let userInput = prompt('insert numbers');
-        userInputResult(userInput, rndNumList);
+        let userRightNums = userInputResult(userInput, rndNumList);
+        let userPoints = userRightNums.length;
+        
+        if (userPoints === rndNumList.length){
+            console.log('user rigth', userRightNums);
+            console.log('user points', userPoints);
+            console.log('continue to the next level')
+            playBtnElement.addEventListener('click', startGame)
+        } else {
+            console.log('user rigth', userRightNums);
+            console.log('user points', userPoints);
+            console.log('your max level reached is', level - 1)
+            playBtnElement.removeEventListener('click', startGame)
+        }
 
     }
 
@@ -84,17 +109,14 @@ function userInputResult (userInput, rndNumList){
     }
     
     //points count
-    let pointsCounter = 0;
     let rigthInputList = []
     for (let i = 0; i < rndNumList.length; i++){
         if (rndNumList.includes(userInputCtrlArray[i])){
-            pointsCounter++;
             rigthInputList.push(userInputCtrlArray[i]);
         }
         
     }
-    
-   console.log('user points', pointsCounter);
-   console.log('rigth inputs', rigthInputList);
+
+   return rigthInputList;
 
 }
